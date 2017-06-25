@@ -2,11 +2,11 @@
 
 In this repository, we train a Deep Convolutional Neural Net on the <b>CIFAR-10 dataset</b> and test it on the Kaggle CIFAR-10 Test Set. 
 
+<b>This model achieves an accuracy of 91.4% over the test set.</b>
+
 We downloaded the dataset from the Kaggle [CIFAR-10 classification challenge](https://www.kaggle.com/c/cifar-10/data). The CIFAR-10 training dataset contains 50,000 training images (5000 images per class).
 
 The Kaggle CIFAR-10 Test Set contains 3,00,000 images out of which 10,000 are used for evaluation. The remaining 2,90,000 have been added to prevent cheating :) 
-
-This model achieves an accuracy of <b>91.4%</b> over the test set.
 
 For details of the dataset and challenge, please [visit this](https://www.kaggle.com/c/cifar-10)
 
