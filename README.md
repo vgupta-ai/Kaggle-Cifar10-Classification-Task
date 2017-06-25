@@ -1,6 +1,10 @@
 # InceptionV3-Tensorflow-Retraining
 
-In this repository, we train a Deep Convolutional Neural Net on the CIFAR-10 dataset and test it on the Kaggle CIFAR-10 Test Set. The Kaggle CIFAR-10 Test Set contains 3,00,000 images out of which 10,000 are used for evaluation. The remaining 2,90,000 have been added to prevent cheating :) 
+In this repository, we train a Deep Convolutional Neural Net on the CIFAR-10 dataset and test it on the Kaggle CIFAR-10 Test Set. 
+
+We downloaded the dataset from the Kaggle [CIFAR-10 classification challenge](https://www.kaggle.com/c/cifar-10/data). The CIFAR-10 training dataset contains 50,000 training images (5000 images per class).
+
+The Kaggle CIFAR-10 Test Set contains 3,00,000 images out of which 10,000 are used for evaluation. The remaining 2,90,000 have been added to prevent cheating :) 
 
 This model achieves an accuracy of <b>91.4%</b> over the test set.
 
@@ -24,7 +28,7 @@ python tester.py
 
 The code expects the data to be organized in a parent folder with images of different classes in different folders.
 
-For Example,
-cifar10Dataset - Parent Directory
-cifar10Dataset/airplane
-cifar10Dataset/dog
+For Example,</br>
+cifar10Dataset - Parent Directory </br>
+cifar10Dataset/airplane </br>
+cifar10Dataset/dog </br>
