@@ -36,9 +36,9 @@ def evaluate_accuracy(sess,phase,model,datasetBatcher,FLAGS,epoch_index):
         else:
             images_data = DatasetManager.get_image_data(image_paths,model,sess)
             num_samples_in_batch = images_data.shape[0]
-            model.train_step(sess,images_data,ground_truth,FLAGS.dropout_keep_rate)
+            accuracy_batch, cross_entropy_value_batch = model.evaluate(sess,images_data,ground_truth)
 
-        num_samples = num_samples + len(num_samples_in_batch)
+        num_samples = num_samples + num_samples_in_batch
         accuracy = accuracy + accuracy_batch
         cross_entropy_value = cross_entropy_value + cross_entropy_value_batch
         image_paths,ground_truth,labels = datasetBatcher.get_next_validation_batch(FLAGS.validation_batch_size)
