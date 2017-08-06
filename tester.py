@@ -18,7 +18,7 @@ parser.add_argument(
 parser.add_argument(
     '--path_to_graph',
     type=str,
-    default='./tmp/output_graph/1497085585/model_99.9977760712_92.0000025034.pb',
+    default='./tmp/output_graph/1501998389/model_89.2609502277_86.400001049.pb',
     #default='./tmp/output_graph/1496918099/model_99.8622210953_91.4600023031.pb',
     #default='./tmp/output_graph/1496818169/model_98.5133332544_91.0000015497.pb',
     #default='./tmp/output_graph/1496748387/model_94.6555585199_91.2000020742.pb',
@@ -79,7 +79,8 @@ def run_graph(sess, image_data, labels, input_layer_name, output_layer_name,
     #   dimension represents the input image count, and the other has
     #   predictions per class
     softmax_tensor = sess.graph.get_tensor_by_name(output_layer_name)
-    predictions, = sess.run(softmax_tensor, {input_layer_name: image_data, "input/dropout_keep_rate:0":1.0, "input/is_training_ph:0":False})
+    #predictions, = sess.run(softmax_tensor, {input_layer_name: image_data, "input/dropout_keep_rate:0":1.0, "input/is_training_ph:0":False})
+    predictions, = sess.run(softmax_tensor, {input_layer_name: image_data, "input/dropout_keep_rate:0":1.0})
     # Sort to show labels in order of confidence
     # sort the prediction array along last axis (columns) in ascending order and then take
     # top K which would be at the last of this array as it is sorted in increasing order
@@ -139,34 +140,37 @@ def test():
         return label_a_file(sess,file_path,labels,FLAGS)
 
 """
-Classify the images present in the test folder and dump the results
-in the file as per Kaggle submission format
+Classify the images present in the test folder
 """
-def kaggle_test():
+def vehicle_test(vehicle_class):
     labels = load_labels(FLAGS.labels)
     load_graph(FLAGS.path_to_graph)
     print "Reading test images..."
-    file_paths = get_images_from_directory("../Kaggle-CIFAR-Dataset/test")
+    file_paths = get_images_from_directory("test_vehicle_dataset/"+vehicle_class)
     label_map = {}
     total_files = len(file_paths)
     with tf.Session() as sess:
         print "Number of files to be classified..."+str(total_files)
         file_index = 0
+        correct = 0
+        total = 0
         for file_path in file_paths:
             file_index = file_index + 1
+            total = total + 1
             print "Labelling files..."+str(file_index)+"/"+str(total_files)
             label = label_a_file(sess,file_path,labels,FLAGS)
-            label_map[int(os.path.basename(file_path).split(".")[0])] = label
+            if label==vehicle_class+"_1000":
+                correct = correct + 1
+            label_map[os.path.basename(file_path).split(".")[0]] = label
     print "Finished classifiying images..."
-    label_map = OrderedDict(sorted(label_map.items(), key=lambda t: t[0]))
+    print "Accuracy..."+str(correct)+"/"+str(total)
+    #label_map = OrderedDict(sorted(label_map.items(), key=lambda t: t[0]))
     print "Writing results in file..."
-    createKaggleSubmissionFile(label_map)
+    createSubmissionFile(label_map,vehicle_class)
 
-"""
-Dump the labels as per Kaggle Format
-"""
-def createKaggleSubmissionFile(label_map):
-    f = open("./kaggle_result.txt","wb")
+
+def createSubmissionFile(label_map,vehicle_class):
+    f = open("./test_vehicle_dataset/"+vehicle_class+".txt","wb")
     f.write("id,label")
     f.write("\n")
     for key in label_map.keys():
@@ -177,6 +181,7 @@ def createKaggleSubmissionFile(label_map):
 
 if __name__ == '__main__':
   FLAGS, unparsed = parser.parse_known_args()
-  #print(test())
-  #test_batch()
-  print(kaggle_test())
+  print(vehicle_test("bus"))
+  #print(vehicle_test("car"))
+  #print(vehicle_test("bicyle"))
+  #print(vehicle_test("single_unit_truck"))

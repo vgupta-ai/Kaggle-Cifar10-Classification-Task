@@ -355,3 +355,14 @@ def readDataset(FLAGS):
     imageMap = create_image_lists(FLAGS.image_dir, FLAGS.testing_percentage,FLAGS.validation_percentage)
     save_labels(FLAGS,imageMap)
     return imageMap
+
+def get_image_data(image_paths,model,sess):
+    image_datas = []
+    for image_path in image_paths:
+        image = Image.open(image_path)
+        image_data = image.convert('RGB')
+        image_data = model.standardize_image(sess,image_data)
+        image_data = np.array(image_data)
+        image_data = image_data.reshape(image_data.shape[1:])
+        image_datas.append(image_data)
+    return np.asarray(image_datas)
