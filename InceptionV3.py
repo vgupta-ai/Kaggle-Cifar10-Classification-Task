@@ -126,7 +126,7 @@ class InceptionV3:
 			return self._add_contrib_bn_fully_connected_layer(input_to_layer,input_size,output_size,layer_name,keep_rate,is_training)
 		else:
 			print "Batch normalization is turned off..."
-			return self._add_non_bn_fully_connected_layer(input_to_layer,input_size,output_size,layer_name,keep_rate,is_training)
+			return self._add_non_bn_fully_connected_layer(input_to_layer,input_size,output_size,layer_name,keep_rate)
 
 	def add_final_training_ops(self,class_count, final_tensor_name, optimizer_name, num_batches_per_epoch, FLAGS):
 		with self.inceptionGraph.as_default():
