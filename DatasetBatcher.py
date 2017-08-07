@@ -124,19 +124,19 @@ class DatasetBatcher:
         self.validation_data_offset = 0
 
     def get_next_training_batch(self,batch_size):
-        return self._get_next_batch('training',batch_size)
+        return self.get_next_batch('training',batch_size)
 
     def get_next_testing_batch(self,batch_size):
-        return self._get_next_batch('testing',batch_size)
+        return self.get_next_batch('testing',batch_size)
 
     def get_next_validation_batch(self,batch_size):
-        return self._get_next_batch('validation',batch_size)
+        return self.get_next_batch('validation',batch_size)
 
     """
     category - training,testing,validation
     batch_size - number of samples to return
     """
-    def _get_next_batch(self,category,batch_size):
+    def get_next_batch(self,category,batch_size):
         if category=='training':
             image_paths,labels_matrix,labels = self._create_next_batch_(batch_size,self.training_data_offset,self.training_images,self.training_labels_one_hot_vector,self.training_class_label)
             self.training_data_offset = self.training_data_offset + batch_size
