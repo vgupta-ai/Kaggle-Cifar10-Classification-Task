@@ -7,6 +7,7 @@ from six.moves import urllib
 import sys
 import numpy as np
 from PIL import Image
+import scipy.misc
 
 def save_labels(FLAGS,image_map):
     print "Saving labels at:"+FLAGS.output_labels
@@ -362,7 +363,11 @@ def get_image_data(image_paths,model,sess):
         image = Image.open(image_path)
         image_data = image.convert('RGB')
         image_data = model.standardize_image(sess,image_data)
-        image_data = np.array(image_data)
+        image_data = np.asarray(image_data)
+        #image_data = scipy.misc.imresize(image_data,(224,224))
+        # img1 = Image.fromarray(image_data, 'RGB')
+        # img1.show()
+        # break
         image_data = image_data.reshape(image_data.shape[1:])
         image_datas.append(image_data)
     return np.asarray(image_datas)

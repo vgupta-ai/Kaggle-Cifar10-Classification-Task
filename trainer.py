@@ -104,7 +104,7 @@ def save_graph(sess,graph,prefix,model_name,FLAGS):
 if __name__ == '__main__':
 
   parser = argparse.ArgumentParser()
-  parser.add_argument('--model_type',type=str,default='inception',help="custom,inception")
+  parser.add_argument('--model_type',type=str,default='custom',help="custom,inception")
   parser.add_argument('--output_graph',type=str,default='./tmp/output_graph', help='Where to save the trained graph.')
   parser.add_argument('--output_labels',type=str,default='./tmp/output_labels.txt',help='Where to save the trained graph\'s labels.')
   parser.add_argument('--summaries_dir',type=str,default='./tmp/retrain_logs',help='Where to save summary logs for TensorBoard.')
@@ -112,14 +112,14 @@ if __name__ == '__main__':
   parser.add_argument('--imagenet_inception_model_dir',type=str,default='./imagenetInception',help="""Path to classify_image_graph_def.pb,imagenet_synset_to_human_label_map.txt, and imagenet_2012_challenge_label_map_proto.pbtxt.""")
   parser.add_argument('--bottleneck_dir',type=str,default='./tmp/bottleneck',help='Path to cache bottleneck layer values as files.')
   parser.add_argument('--final_tensor_name',type=str,default='final_result',help="""The name of the output classification layer in the retrained graph.""")
-  parser.add_argument('--image_dir',type=str,default='cifar10DatasetSample',help='Path to folders of labeled images.')
+  parser.add_argument('--image_dir',type=str,default='cifar10_1000',help='Path to folders of labeled images.')
   parser.add_argument('--eval_step_interval',type=int,default=5,help='How often to evaluate the training results.')
   parser.add_argument('--print_misclassified_test_images',default=False, help="Whether to print out a list of all misclassified test images.",action='store_true')
 
   #Learning Rate and Optimizers
-  parser.add_argument('--optimizer_name',type=str,default="sgd",help='Optimizer to be used: sgd,adam,rmsprop')
+  parser.add_argument('--optimizer_name',type=str,default="adam",help='Optimizer to be used: sgd,adam,rmsprop')
   parser.add_argument('--learning_rate_decay_factor',type=float,default=0.16,help='Learning rate decay factor.')
-  parser.add_argument('--learning_rate',type=float,default=0.1,help='Initial learning rate.')
+  parser.add_argument('--learning_rate',type=float,default=0.001,help='Initial learning rate.')
   parser.add_argument('--rmsprop_decay',type=float,default=0.9,help='Decay term for RMSProp.')
   parser.add_argument('--rmsprop_momentum',type=float,default=0.9,help='Momentum in RMSProp.')
   parser.add_argument('--rmsprop_epsilon',type=float,default=1.0,help='Epsilon term for RMSProp.')

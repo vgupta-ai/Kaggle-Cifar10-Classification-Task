@@ -73,9 +73,10 @@ class CommonModel():
 	def create_optimizer(self,FLAGS,learning_rate):
 		if FLAGS.optimizer_name == "sgd":
 			optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate)
-		elif optimizer_name == "adam":
-			optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
-		elif optimizer_name == "rmsprop":
+		elif FLAGS.optimizer_name == "adam":
+			#optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate)
+			optimizer = tf.train.AdamOptimizer()
+		elif FLAGS.optimizer_name == "rmsprop":
 			optimizer = tf.train.RMSPropOptimizer(learning_rate,FLAGS.rmsprop_decay,momentum=FLAGS.rmsprop_momentum,epsilon=FLAGS.rmsprop_epsilon)
 		else:
 			raise ValueError('Incorrect Optimizer Type...')
@@ -95,10 +96,12 @@ class CommonModel():
 	def _add_non_bn_fully_connected_layer(self,input_to_layer,input_size,output_size,layer_name,keep_rate):
 		with tf.name_scope(layer_name):
 			with tf.name_scope('weights'):
-				initial_value_weights = tf.truncated_normal([input_size, output_size],stddev=0.001)
+				#initial_value_weights = tf.truncated_normal([input_size, output_size],stddev=0.001)
+				initial_value_weights = tf.random_normal([input_size, output_size])
 				layer_weights = tf.Variable(initial_value_weights, name='final_weights')
 			with tf.name_scope('biases'):
-				layer_biases = tf.Variable(tf.zeros([output_size]), name='final_biases')
+				#layer_biases = tf.Variable(tf.zeros([output_size]), name='final_biases')
+				layer_biases = tf.Variable(tf.random_normal([output_size]), name='final_biases')
 			with tf.name_scope('Wx_plus_b'):
 				logits_bn = tf.matmul(input_to_layer, layer_weights) + layer_biases
 				logits_bn = tf.nn.relu(logits_bn)
